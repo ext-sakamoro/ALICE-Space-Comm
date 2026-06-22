@@ -1,3 +1,5 @@
+#![allow(dead_code)] // SaaS template: WIP request struct field 未使用、将来 handler で使う
+
 use axum::{
     extract::State,
     response::Json,
@@ -270,7 +272,7 @@ async fn create_mission(
     Json(req): Json<MissionRequest>,
 ) -> Json<MissionResponse> {
     let target = req.target_body.unwrap_or_else(|| "mars".into());
-    let dist = req.distance_au.unwrap_or_else(|| match target.as_str() {
+    let dist = req.distance_au.unwrap_or(match target.as_str() {
         "moon" => 0.0026,
         "mars" => 1.5,
         "jupiter" => 5.2,
